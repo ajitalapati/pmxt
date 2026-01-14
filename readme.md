@@ -87,7 +87,7 @@ pmxt supports trading functionality (placing and cancelling orders).
 To trade, you must provide your private credentials.
 
 - **Polymarket**: Requires your Polygon Private Key. [View Setup Guide](docs/SETUP_POLYMARKET.md)
-- **Kalshi**: Requires API Key & Private Key (Coming Soon).
+- **Kalshi**: Requires API Key & Private Key.
 
 ### Trading Example
 
