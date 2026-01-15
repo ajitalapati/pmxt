@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
  
+## [0.4.3] - 2026-01-15
+
+### Fixed
+- **Zombie Files in `dist/`**: Implemented a `prebuild` step that automatically cleans the `dist/` folder before every build. This prevents "stuck on old code" issues on macOS/Windows caused by file-to-directory refactors (e.g., `Kalshi.js` becoming `kalshi/index.js`).
+
+### Added
+- **Automated Publishing**: Added GitHub Actions workflow to automatically build and publish to npm whenever a new repository tag (e.g., `v0.4.3`) is pushed.
+
 ## [0.4.2] - 2026-01-15
 
 ### Fixed
