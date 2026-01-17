@@ -144,18 +144,29 @@ class ServerManager:
         """
         Start the server using the pmxt-ensure-server launcher.
         """
-        # 1. Check for local development paths first
+        # 1. Check for bundled server (PRODUCTION - installed via pip)
+        bundled_launcher = Path(__file__).parent / '_server' / 'bin' / 'pmxt-ensure-server'
+        
+        # 2. Check for monorepo structure (DEVELOPMENT)
         current_file = Path(__file__).resolve()
-        # Look for ../../bin/pmxt-ensure-server (monorepo structure)
-        local_launcher = current_file.parent.parent.parent / 'bin' / 'pmxt-ensure-server'
+        local_launcher = current_file.parent.parent.parent.parent / 'core' / 'bin' / 'pmxt-ensure-server'
         
-        launcher = str(local_launcher) if local_launcher.exists() else shutil.which('pmxt-ensure-server')
+        # 3. Check PATH (GLOBAL INSTALL)
+        path_launcher = shutil.which('pmxt-ensure-server')
         
-        if not launcher:
+        # Priority order: bundled > local dev > PATH
+        if bundled_launcher.exists():
+            launcher = str(bundled_launcher)
+        elif local_launcher.exists():
+            launcher = str(local_launcher)
+        elif path_launcher:
+            launcher = path_launcher
+        else:
             raise Exception(
                 "pmxt-ensure-server not found.\n"
-                "Local search failed and not in PATH.\n"
-                "Please install the server: npm install -g pmxtjs"
+                "This should have been bundled with the package.\n"
+                "Please reinstall: pip install --force-reinstall pmxt\n"
+                "Or install the server manually: npm install -g pmxt-core"
             )
         
         # Call the launcher

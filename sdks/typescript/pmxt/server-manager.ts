@@ -7,7 +7,7 @@
 import { DefaultApi, Configuration } from "../generated/src/index.js";
 import { readFileSync, existsSync } from "fs";
 import { homedir } from "os";
-import { join } from "path";
+import { join, dirname } from "path";
 
 export interface ServerManagerOptions {
     baseUrl?: string;
@@ -113,11 +113,30 @@ export class ServerManager {
             return;
         }
 
+        // Locate pmxt-ensure-server
+        let launcherPath = 'pmxt-ensure-server'; // Default to PATH
+
+        try {
+            // Try to resolve from pmxt-core dependency
+            // For CommonJS build (which is primary), we can use require directly
+            // For ESM build, this will be transpiled appropriately
+            const corePackageJson = require.resolve('pmxt-core/package.json');
+            const coreDir = dirname(corePackageJson);
+            const binPath = join(coreDir, 'bin', 'pmxt-ensure-server');
+
+            if (existsSync(binPath)) {
+                launcherPath = binPath;
+            }
+        } catch (error) {
+            // If resolution fails, fall back to PATH
+            // This could happen in dev environments where pmxt-core is globally installed
+        }
+
         // Try to start the server using pmxt-ensure-server
         const { spawn } = await import("child_process");
 
         try {
-            const proc = spawn("pmxt-ensure-server", [], {
+            const proc = spawn(launcherPath, [], {
                 detached: true,
                 stdio: "ignore",
             });

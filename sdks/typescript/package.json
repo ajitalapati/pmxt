@@ -41,6 +41,9 @@
     "api",
     "unified"
   ],
+  "dependencies": {
+    "pmxt-core": "1.0.0-b4"
+  },
   "devDependencies": {
     "@types/jest": "^30.0.0",
     "@types/node": "^20.0.0",
