@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2026-01-17
+
+### Fixed
+- **Core SDK (Universal)**: Implemented dynamic port detection via the `~/.pmxt/server.lock` file. This resolves `ConnectionRefusedError` issues when the default port (3847) is already in use and the server falls back to an alternative port.
+- **TypeScript SDK**: Resolved a critical race condition where API calls could be executed before the internal server manager had finished starting the sidecar or detecting the actual running port. Standardized the initialization pattern using an internal `initPromise`.
+- **TypeScript SDK**: Fixed `ServerManager` health checks to correctly target the dynamically detected port instead of always checking the default.
+- **Python SDK**: Hardened the `ServerManager` logic and improved consistency with the TypeScript implementation.
+
+### Added
+- **Python**: Added `examples/test_port_detection.py` to demonstrate and verify the new dynamic port resolution logic.
+
 ## [1.0.0] - 2026-01-17
 
 ### Major Release: Multi-Language SDK Support
