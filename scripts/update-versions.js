@@ -66,6 +66,10 @@ console.log(`[OK] Updated core/package.json to ${npmVersion}`);
 const tsPath = path.join(__dirname, '..', 'sdks', 'typescript', 'package.json');
 const tsPackage = JSON.parse(fs.readFileSync(tsPath, 'utf8'));
 tsPackage.version = npmVersion; // Use SemVer
+// Update pmxt-core dependency to match the new version
+if (tsPackage.dependencies && tsPackage.dependencies['pmxt-core']) {
+    tsPackage.dependencies['pmxt-core'] = npmVersion;
+}
 fs.writeFileSync(tsPath, JSON.stringify(tsPackage, null, 2) + '\n');
 console.log(`[OK] Updated sdks/typescript/package.json to ${npmVersion}`);
 
