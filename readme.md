@@ -61,39 +61,36 @@
 
 Different prediction market platforms have different APIs, data formats, and conventions. pmxt provides a single, consistent interface to work with all of them.
 
-## Quick Example
+## Quickstart
 
-Get the current price for any market in seconds:
+Get the current price for any market in seconds.
 
-```typescript
-import pmxt from 'pmxtjs';
+### Python
 
-async function main() {
-  const poly = new pmxt.Polymarket();
-  const [market] = await poly.searchMarkets('Trump');
+```python
+import pmxt
 
-  console.log(`${market.title} - ${market.outcomes[0].label}: ${market.outcomes[0].price * 100}%`);
-}
+api = pmxt.Polymarket()
+markets = api.get_markets_by_slug('who-will-trump-nominate-as-fed-chair')
 
-main();
+warsh = next((m for m in markets if m.outcomes[0].label == 'Kevin Warsh'), None) 
+
+print(warsh.outcomes[0].price) # price of 'Yes' outcome
 ```
+
+> **Note**: For TypeScript usage, see [pmxtjs documentation](https://pmxt.dev/docs).
 
 ## Installation
 
+### Python
+```bash
+pip install pmxt
+```
+
+### Node.js
 ```bash
 npm install pmxtjs
 ```
-
-### Note for ESM Users
-
-**pmxt is currently CommonJS-only.** If you're using `"type": "module"` in your `package.json`, use the default import:
-
-```typescript
-import pmxt from 'pmxtjs';
-const poly = new pmxt.Polymarket();
-```
-
-Named exports like `import { Polymarket } from 'pmxtjs'` will **not work** in ESM projects. See the [API Reference](core/API_REFERENCE.md) for more details.
 
 ## Supported Exchanges
 
