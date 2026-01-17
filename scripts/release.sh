@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # Release script for PMXT
-# Usage: ./release.sh <version>
-# Example: ./release.sh 0.5.0
+# Usage: ./scripts/release.sh <version>
+# Example: ./scripts/release.sh 0.5.0
 
 set -e
 
 if [ -z "$1" ]; then
     echo "[ERROR] Error: Version number required"
-    echo "Usage: ./release.sh <version>"
-    echo "Example: ./release.sh 0.5.0"
+    echo "Usage: ./scripts/release.sh <version>"
+    echo "Example: ./scripts/release.sh 0.5.0"
     exit 1
 fi
 
